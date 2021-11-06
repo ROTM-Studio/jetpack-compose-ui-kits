@@ -1,6 +1,9 @@
 package com.rotmstudio.digitalbookappuikit.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,20 +50,21 @@ fun MainScreen(
                         fontSize = 24.sp,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 16.dp),
+                            .padding(end = 20.dp),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold
                     )
                 },
                 navigationIcon = {
                     Box(
-                        modifier = Modifier.size(width = 70.dp, height = 50.dp)
+                        modifier = Modifier
+                            .height(50.dp)
                     ) {
                         IconButton(onClick = { }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_menu_icon),
                                 contentDescription = "",
-                                modifier = Modifier.padding(start = 16.dp)
+//                                modifier = Modifier.padding(start = 16.dp)
                             )
                         }
                     }
