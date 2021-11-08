@@ -34,6 +34,7 @@ import com.rotmstudio.digitalbookappuikit.ui.home.HomeScreen
 import com.rotmstudio.digitalbookappuikit.ui.navigation.BottomBarNavigation
 import com.rotmstudio.digitalbookappuikit.ui.navigation.Navigation
 import com.rotmstudio.digitalbookappuikit.ui.theme.Eden
+import com.rotmstudio.digitalbookappuikit.ui.theme.NileBlue
 
 @Composable
 fun MainScreen(
@@ -170,7 +171,7 @@ fun BottomNavigationBar(
 
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.background,
-        contentColor = MaterialTheme.colors.onBackground
+        contentColor = MaterialTheme.colors.onBackground,
     ) {
         screen.forEach { item ->
             BottomNavigationItem(
@@ -181,8 +182,8 @@ fun BottomNavigationBar(
                         contentDescription = item.title
                     )
                 },
-                selectedContentColor = MaterialTheme.colors.primary,
-                unselectedContentColor = Color.White,
+                selectedContentColor = if (MaterialTheme.colors.isLight) NileBlue else MaterialTheme.colors.primary,
+                unselectedContentColor = if (MaterialTheme.colors.isLight) NileBlue else Color.White,
                 onClick = {
                     navController.navigate(item.route) {
                         navController.graph.startDestinationRoute?.let { route ->

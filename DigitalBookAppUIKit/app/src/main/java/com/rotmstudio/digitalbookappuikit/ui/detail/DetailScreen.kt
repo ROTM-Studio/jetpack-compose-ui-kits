@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -169,7 +170,7 @@ fun Info(
     Card(
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
         shape = RoundedCornerShape(10.dp),
-        backgroundColor = MaastrichtBlue,
+        backgroundColor = if (MaterialTheme.colors.isLight) Zircon else MaastrichtBlue,
         elevation = 0.dp
     ) {
         Row(
@@ -305,7 +306,7 @@ fun Action(
                 .size(width = 52.dp, height = 52.dp),
             shape = RoundedCornerShape(12.dp),
             elevation = 0.dp,
-            backgroundColor = OxfordBlue
+            backgroundColor = if (MaterialTheme.colors.isLight) Zircon else OxfordBlue
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_whitelist_solid),
@@ -326,7 +327,7 @@ fun Action(
                 text = "Start Reading",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Zuccini
+                color = if (MaterialTheme.colors.isLight) Color.White else Zuccini
             )
         }
     }
