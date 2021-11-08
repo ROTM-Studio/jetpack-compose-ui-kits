@@ -101,7 +101,7 @@ fun DetailScreen(
                     Description(book = book)
                 }
                 item {
-                    Action(book = book)
+                    Action()
                 }
             }
         }
@@ -192,8 +192,7 @@ fun Info(
                     fontWeight = FontWeight.Medium,
                     color = if (MaterialTheme.colors.isLight) Jumbo else Casper
                 )
-                Row(
-                ) {
+                Row {
                     Text(
                         text = book.rating.toString(),
                         fontSize = 12.sp,
@@ -254,8 +253,7 @@ fun Info(
                     fontWeight = FontWeight.Medium,
                     color = if (MaterialTheme.colors.isLight) Jumbo else Casper
                 )
-                Row(
-                ) {
+                Row {
                     Text(
                         text = book.language,
                         fontSize = 12.sp,
@@ -292,9 +290,7 @@ fun Description(
 }
 
 @Composable
-fun Action(
-    book: PopularBook
-) {
+fun Action() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
