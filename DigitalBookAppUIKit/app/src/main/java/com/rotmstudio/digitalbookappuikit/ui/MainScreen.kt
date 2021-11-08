@@ -20,15 +20,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.rotmstudio.digitalbookappuikit.R
 import com.rotmstudio.digitalbookappuikit.ui.component.DigitalBookAppUiKitTopBar
+import com.rotmstudio.digitalbookappuikit.ui.detail.DetailScreen
 import com.rotmstudio.digitalbookappuikit.ui.dummy.WhiteListScreen
 import com.rotmstudio.digitalbookappuikit.ui.home.HomeScreen
 import com.rotmstudio.digitalbookappuikit.ui.navigation.BottomBarNavigation
+import com.rotmstudio.digitalbookappuikit.ui.navigation.Navigation
 import com.rotmstudio.digitalbookappuikit.ui.theme.Eden
 
 @Composable
@@ -37,63 +41,69 @@ fun MainScreen(
 ) {
 
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            DigitalBookAppUiKitTopBar(
-                title = {
-                    Text(
-                        text = "Digibook",
-                        color = MaterialTheme.colors.onSurface,
-                        fontFamily = FontFamily(Font(R.font.nunito_bold)),
-                        fontSize = 24.sp,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(end = 20.dp),
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    Box(
-                        modifier = Modifier
-                            .height(50.dp)
-                    ) {
-                        IconButton(onClick = { }) {
+            if (currentRoute != Navigation.DetailScreen.ROUTE_WITH_ARGUMENT) {
+                DigitalBookAppUiKitTopBar(
+                    title = {
+                        Text(
+                            text = "Digibook",
+                            color = MaterialTheme.colors.onSurface,
+                            fontFamily = FontFamily(Font(R.font.nunito_bold)),
+                            fontSize = 24.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = 20.dp),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    navigationIcon = {
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                        ) {
+                            IconButton(onClick = { }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_menu_icon),
+                                    contentDescription = "",
+                                )
+                            }
+                        }
+                    },
+                    actions = {
+                        Box(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .padding(end = 16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_menu_icon),
+                                painter = painterResource(id = R.drawable.ic_search_icon),
                                 contentDescription = "",
-//                                modifier = Modifier.padding(start = 16.dp)
                             )
                         }
-                    }
-                },
-                actions = {
-                    Box(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .padding(end = 16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_search_icon),
-                            contentDescription = "",
+                    },
+                    modifier = Modifier.drawBehind {
+                        drawLine(
+                            color = Eden.copy(alpha = 0.5f),
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = 2f
                         )
                     }
-                },
-                modifier = Modifier.drawBehind {
-                    drawLine(
-                        color = Eden.copy(alpha = 0.5f),
-                        start = Offset(0f, size.height),
-                        end = Offset(size.width, size.height),
-                        strokeWidth = 2f
-                    )
-                }
-            )
+                )
+            }
         },
         bottomBar = {
-            BottomNavigationBar(navController = navController)
+            if (currentRoute != Navigation.DetailScreen.ROUTE_WITH_ARGUMENT) {
+                BottomNavigationBar(navController = navController, currentRoute = currentRoute)
+            }
         }
     ) {
         NavHost(
@@ -103,7 +113,11 @@ fun MainScreen(
             composable(
                 route = BottomBarNavigation.HomeScreen.route
             ) {
-                HomeScreen()
+                HomeScreen(
+                    onBookTapped = {
+                        navController.navigate("detail_screen/$it")
+                    }
+                )
             }
             composable(
                 route = BottomBarNavigation.WhiteListScreen.route
@@ -120,13 +134,32 @@ fun MainScreen(
             ) {
                 WhiteListScreen()
             }
+            composable(
+                route = Navigation.DetailScreen.ROUTE_WITH_ARGUMENT,
+                arguments = listOf(
+                    navArgument(Navigation.DetailScreen.BOOK_ID) {
+                        type = NavType.LongType
+                    }
+                )
+            ) {
+                val bookId = it.arguments?.getLong(Navigation.DetailScreen.BOOK_ID)
+                    ?: return@composable
+
+                DetailScreen(
+                    bookId = bookId,
+                    onBackIconTapped = {
+                        navController.popBackStack()
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavController
+    navController: NavController,
+    currentRoute: String?
 ) {
     val screen = listOf(
         BottomBarNavigation.HomeScreen,
@@ -139,9 +172,6 @@ fun BottomNavigationBar(
         backgroundColor = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-
         screen.forEach { item ->
             BottomNavigationItem(
                 selected = currentRoute == item.route,

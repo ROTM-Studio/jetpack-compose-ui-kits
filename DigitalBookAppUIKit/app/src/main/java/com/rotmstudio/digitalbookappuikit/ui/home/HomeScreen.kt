@@ -1,6 +1,7 @@
 package com.rotmstudio.digitalbookappuikit.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -29,7 +30,9 @@ import com.rotmstudio.digitalbookappuikit.ui.theme.Jumbo
 import com.rotmstudio.digitalbookappuikit.ui.theme.LightningYellow
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onBookTapped: (bookId: Long) -> Unit
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,7 +45,7 @@ fun HomeScreen() {
         ) {
             item {
                 RecentBook()
-                PopularBook()
+                PopularBook { onBookTapped(it) }
                 RecommendedBook()
             }
         }
@@ -137,7 +140,9 @@ fun RecentBook() {
 }
 
 @Composable
-fun PopularBook() {
+fun PopularBook(
+    onBookTapped: (bookId: Long) -> Unit
+) {
 
     val popularBooks = remember { PopularBookRepo.getPopularBooks() }
 
@@ -174,6 +179,9 @@ fun PopularBook() {
                         .padding(end = 16.dp)
                         .height(280.dp)
                         .width(150.dp)
+                        .clickable {
+                            onBookTapped(book.id)
+                        }
                 ) {
                     Column {
                         Image(
