@@ -172,6 +172,7 @@ fun BottomNavigationBar(
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground,
+        elevation = 0.dp
     ) {
         screen.forEach { item ->
             BottomNavigationItem(
