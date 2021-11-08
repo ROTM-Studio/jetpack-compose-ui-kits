@@ -203,7 +203,8 @@ fun PopularBook(
                             fontSize = 12.sp,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            color = if (MaterialTheme.colors.isLight) Jumbo else Casper
+                            color = if (MaterialTheme.colors.isLight) Jumbo else Casper,
+                            fontWeight = FontWeight.Medium
                         )
                     }
                 }
