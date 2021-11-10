@@ -3,12 +3,15 @@ package com.rotmstudio.seasellcryptoappuikit
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.rotmstudio.seasellcryptoappuikit.ui.MainScreen
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.SeaSellCryptoAppUIKitTheme
 
+@ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 ProvideWindowInsets {
-
+                    MainScreen()
                 }
             }
         }
