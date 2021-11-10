@@ -7,10 +7,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rotmstudio.seasellcryptoappuikit.ui.MainScreen
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.SeaSellCryptoAppUIKitTheme
 
+@ExperimentalPagerApi
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -14,11 +14,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.rotmstudio.seasellcryptoappuikit.ui.component.SeaSellCryptoBottomNavigationBar
+import com.rotmstudio.seasellcryptoappuikit.ui.dashboard.DashboardScreen
 import com.rotmstudio.seasellcryptoappuikit.ui.dummy.DummyScreen
 import com.rotmstudio.seasellcryptoappuikit.ui.navigation.BottomBarNavigation
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.Violet
 
+@ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen(
@@ -55,7 +58,11 @@ fun MainScreen(
             composable(
                 route = BottomBarNavigation.DashboardScreen.route
             ) {
-                DummyScreen()
+                DashboardScreen(
+                    onPagerItemTapped = {
+
+                    }
+                )
             }
             composable(
                 route = BottomBarNavigation.CollectionScreen.route
