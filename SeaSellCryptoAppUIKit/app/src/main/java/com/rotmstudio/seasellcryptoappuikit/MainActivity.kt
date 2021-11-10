@@ -3,12 +3,10 @@ package com.rotmstudio.seasellcryptoappuikit
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.BottomNavigation
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.SideEffect
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.SeaSellCryptoAppUIKitTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,24 +14,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SeaSellCryptoAppUIKitTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                val systemUiController = rememberSystemUiController()
+                val statusBarAndNavigationBarColor = MaterialTheme.colors.surface
+                val useDarkIcons = MaterialTheme.colors.isLight
+
+                SideEffect {
+                    systemUiController.apply {
+                        setStatusBarColor(
+                            color = statusBarAndNavigationBarColor,
+                            darkIcons = useDarkIcons
+                        )
+                        setNavigationBarColor(
+                            color = statusBarAndNavigationBarColor,
+                            darkIcons = useDarkIcons
+                        )
+                    }
+                }
+                ProvideWindowInsets {
+
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    SeaSellCryptoAppUIKitTheme {
-        Greeting("Android")
     }
 }
