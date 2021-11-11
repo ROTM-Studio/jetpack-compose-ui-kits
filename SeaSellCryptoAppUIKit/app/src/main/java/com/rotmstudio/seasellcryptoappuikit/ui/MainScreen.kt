@@ -1,11 +1,14 @@
 package com.rotmstudio.seasellcryptoappuikit.ui
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -40,10 +43,26 @@ fun MainScreen(
         scaffoldState = scaffoldState,
         bottomBar = {
             if (currentRoute != Navigation.BidScreen.ROUTE_WITH_ARGUMENT) {
-                BottomNavigationBar(
-                    navController = navController,
-                    currentRoute = currentRoute
-                )
+                val state = remember {
+                    MutableTransitionState(false).apply {
+                        targetState = true
+                    }
+                }
+                AnimatedVisibility(
+                    visibleState = state,
+                    enter = slideInVertically(
+                        initialOffsetY = { -40 },
+                        animationSpec = tween(durationMillis = 1000)
+                    ) + fadeIn(
+                        initialAlpha = 0.3f, animationSpec = tween(durationMillis = 1000)
+                    ),
+                    exit = fadeOut()
+                ) {
+                    BottomNavigationBar(
+                        navController = navController,
+                        currentRoute = currentRoute
+                    )
+                }
             }
         }
     ) {
