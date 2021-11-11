@@ -1,6 +1,6 @@
 package com.rotmstudio.seasellcryptoappuikit.ui
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -10,15 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.rotmstudio.seasellcryptoappuikit.ui.bid.BidScreen
 import com.rotmstudio.seasellcryptoappuikit.ui.component.SeaSellCryptoBottomNavigationBar
 import com.rotmstudio.seasellcryptoappuikit.ui.dashboard.DashboardScreen
 import com.rotmstudio.seasellcryptoappuikit.ui.dummy.DummyScreen
 import com.rotmstudio.seasellcryptoappuikit.ui.navigation.BottomBarNavigation
+import com.rotmstudio.seasellcryptoappuikit.ui.navigation.Navigation
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.Violet
 
 @ExperimentalPagerApi
@@ -35,10 +39,12 @@ fun MainScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
-            BottomNavigationBar(
-                navController = navController,
-                currentRoute = currentRoute
-            )
+            if (currentRoute != Navigation.BidScreen.ROUTE_WITH_ARGUMENT) {
+                BottomNavigationBar(
+                    navController = navController,
+                    currentRoute = currentRoute
+                )
+            }
         }
     ) {
         AnimatedNavHost(
@@ -60,7 +66,7 @@ fun MainScreen(
             ) {
                 DashboardScreen(
                     onPagerItemTapped = {
-
+                        navController.navigate("bid_screen/$it")
                     }
                 )
             }
@@ -73,6 +79,22 @@ fun MainScreen(
                 route = BottomBarNavigation.HelpScreen.route
             ) {
                 DummyScreen()
+            }
+            composable(
+                route = Navigation.BidScreen.ROUTE_WITH_ARGUMENT,
+                arguments = listOf(
+                    navArgument(Navigation.BidScreen.NFT_ID) {
+                        type = NavType.LongType
+                    }
+                )
+            ) {
+                val nftId = it.arguments?.getLong(Navigation.BidScreen.NFT_ID)
+                    ?: return@composable
+
+                BidScreen(
+                    nftId = nftId,
+                    onPlaceBidButtonTapped = { navController.popBackStack() }
+                )
             }
         }
     }
