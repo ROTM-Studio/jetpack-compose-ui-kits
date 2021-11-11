@@ -8,7 +8,8 @@ data class Nft(
     val isFavorite: Boolean,
     val image: Int,
     val name: String,
-    val description: String
+    val description: String,
+    val bid: String,
 )
 
 val nfts = listOf(
@@ -18,7 +19,8 @@ val nfts = listOf(
         isFavorite = true,
         image = R.drawable.image_1,
         name = "Fast Food",
-        description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer varius cursus placerat."
+        description = "Menggambarkan betapa pentingnya sebuah persediaan",
+        bid = "12.2"
     ),
     Nft(
         id = 2L,
@@ -26,15 +28,17 @@ val nfts = listOf(
         isFavorite = false,
         image = R.drawable.image_2,
         name = "Ethereum",
-        description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer varius cursus placerat."
+        description = "Menggambarkan betapa pentingnya sebuah persediaan",
+        bid = "57.80"
     ),
     Nft(
         id = 3L,
         isTrending = false,
         isFavorite = true,
         image = R.drawable.image_3,
-        name = "Dark Game",
-        description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer varius cursus placerat."
+        name = "Dart Game",
+        description = "Menggambarkan betapa pentingnya sebuah persediaan",
+        bid = "28.40"
     ),
     Nft(
         id = 4L,
@@ -42,6 +46,7 @@ val nfts = listOf(
         isFavorite = false,
         image = R.drawable.image_4,
         name = "Warehouse",
-        description = "Menggambarkan betapa pentingnya sebuah persediaan"
+        description = "Menggambarkan betapa pentingnya sebuah persediaan",
+        bid = "530.099"
     )
 )
