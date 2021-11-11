@@ -32,6 +32,8 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.rotmstudio.seasellcryptoappuikit.R
 import com.rotmstudio.seasellcryptoappuikit.data.CreatorRepo
 import com.rotmstudio.seasellcryptoappuikit.data.NftRepo
+import com.rotmstudio.seasellcryptoappuikit.data.RecentBid
+import com.rotmstudio.seasellcryptoappuikit.data.RecentBidRepo
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.Cerise
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.PurpleHeart
 import com.rotmstudio.seasellcryptoappuikit.ui.theme.SantasGray
@@ -43,6 +45,9 @@ import kotlin.math.absoluteValue
 fun DashboardScreen(
     onPagerItemTapped: (nftId: Long) -> Unit
 ) {
+
+    val recentBids = remember { RecentBidRepo.getRecentBids() }
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -70,7 +75,17 @@ fun DashboardScreen(
                 Spacer(modifier = Modifier.size(38.dp))
             }
             item {
-                MyRecentBids()
+                Text(
+                    text = "My Recent Bids",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                )
+                Spacer(modifier = Modifier.size(16.dp))
+            }
+            items(recentBids) { recentBid ->
+                MyRecentBid(recentBid = recentBid)
             }
         }
     }
@@ -290,135 +305,46 @@ fun PopularCreator() {
 }
 
 @Composable
-fun MyRecentBids() {
-    Column(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+fun MyRecentBid(recentBid: RecentBid) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
+        Image(
+            painter = painterResource(id = recentBid.image),
+            contentDescription = recentBid.name,
+            modifier = Modifier
+                .size(60.dp)
+                .clip(RoundedCornerShape(16.dp)),
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(modifier = Modifier.weight(2f)) {
+            Text(
+                text = recentBid.name,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colors.onSurface
+            )
+            Text(
+                text = recentBid.date,
+                fontSize = 12.sp,
+                color = StormGray
+            )
+        }
+        Icon(
+            painter = painterResource(id = R.drawable.ic_bitcoin),
+            contentDescription = "",
+            tint = Color.Unspecified,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "My Recent Bids",
-            fontSize = 16.sp,
+            text = recentBid.bid,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colors.onSurface
         )
-        Spacer(modifier = Modifier.size(8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.image_5),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(16.dp)),
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(2f)) {
-                Text(
-                    text = "Dart Celline",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colors.onSurface
-                )
-                Text(
-                    text = "Apr 22",
-                    fontSize = 12.sp,
-                    color = StormGray
-                )
-            }
-            Icon(
-                painter = painterResource(id = R.drawable.ic_bitcoin),
-                contentDescription = "",
-                tint = Color.Unspecified,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "28.40",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colors.onSurface
-            )
-        }
-        Spacer(modifier = Modifier.size(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.image_6),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(16.dp)),
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(2f)) {
-                Text(
-                    text = "Zipzip Koin",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colors.onSurface
-                )
-                Text(
-                    text = "Feb 31",
-                    fontSize = 12.sp,
-                    color = StormGray
-                )
-            }
-            Icon(
-                painter = painterResource(id = R.drawable.ic_bitcoin),
-                contentDescription = "",
-                tint = Color.Unspecified,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "1.10",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colors.onSurface
-            )
-        }
-        Spacer(modifier = Modifier.size(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.image_7),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(RoundedCornerShape(16.dp)),
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(2f)) {
-                Text(
-                    text = "Dart Celline",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colors.onSurface
-                )
-                Text(
-                    text = "Feb 9",
-                    fontSize = 12.sp,
-                    color = StormGray
-                )
-            }
-            Icon(
-                painter = painterResource(id = R.drawable.ic_bitcoin),
-                contentDescription = "",
-                tint = Color.Unspecified,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "590.00",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colors.onSurface
-            )
-        }
     }
 }
