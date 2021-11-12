@@ -1,8 +1,8 @@
-<h1 align="center">🪙 Sea Sell Crypto App UI Kit 🪙</h1>
+<h1 align="center">💰 Sea Sell Crypto App UI Kit 💰</h1>
 
 ## Resource
-Design: https://buildwithangga.com/pixel/seasell-crypto-app
-Instagram: https://www.instagram.com/p/CVzKOKStqJo/
+<p>Design: https://buildwithangga.com/pixel/seasell-crypto-app</p>
+<p>Instagram: https://www.instagram.com/p/CVzKOKStqJo/</p>
 
 ## Screenshot
 
